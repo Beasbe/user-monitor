@@ -1,0 +1,229 @@
+
+[Key.alt_l]
+
+[Key.tab]
+
+[Key.tab]
+
+[Key.alt_l]
+
+[Key.tab]
+
+[Key.alt_l]
+в в ш ш к к 
+[Key.enter]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.tab]
+
+[Key.tab]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.tab]
+
+[Key.tab]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.alt_l]
+д д а а 
+[Key.shift]
+
+[Key.shift]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+Д а а 
+[Key.shift]
+
+[Key.shift]
+, , 
+[Key.space]
+
+[Key.space]
+х х о о ч ч у у 
+[Key.space]
+т т а а й й м м ш ш т т а а м м п п 
+[Key.space]
+
+[Key.space]
+
+[Key.shift]
+
+[Key.shift]
+И И 
+[Key.space]
+и и з з б б е е ж ж а а т т ь ь 
+[Key.space]
+
+[Key.space]
+в в 
+[Key.backspace]
+
+[Key.backspace]
+у у д д в в о о е е н н и и е е 
+[Key.space]
+
+[Key.space]
+л л о о г г о о в в . . 
+[Key.space]
+
+[Key.space]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+
+[Key.shift]
+П П л л ю ю с с 
+[Key.space]
+
+[Key.space]
+н н а а д д о о 
+[Key.space]
+
+[Key.space]
+г г д д е е 
+[Key.space]
+
+[Key.space]
+т т о о 
+[Key.space]
+п п р р о о д д у у м м а а т т ь ь 
+[Key.space]
+л л о о г г и и к к у у 
+[Key.space]
+
+[Key.space]
+ч ч т т о о б б ы ы 
+[Key.space]
+
+[Key.space]
+л л о о г г и и 
+[Key.space]
+
+[Key.space]
+с с о о х х р р а н н я я л л и и ь ь 
+[Key.backspace]
+
+[Key.backspace]
+с с ь ь 
+[Key.space]
+
+[Key.space]
+п п о о с с л л е е ж ж д д н н 
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+
+[Key.backspace]
+д д н н и и е е 
+[Key.space]
+3 3 
+[Key.space]
+
+[Key.space]
+д д н н я я 
+[Key.enter]
+
+[Key.alt_l]
+
+[Key.alt_l]
+
+[Key.tab]
+
+[Key.tab]
+
+[Key.ctrl_l]
+   

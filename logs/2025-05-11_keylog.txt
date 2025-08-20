@@ -1,0 +1,18 @@
+2025-05-11 15:21:17 - [cmd.exe] - "Командная строка" - PASTED: Журнал событий Windows 10
+2025-05-11 15:21:17 - [cmd.exe] - "Командная строка" - ds
+2025-05-11 15:21:17 - [cmd.exe] - "Командная строка" - ds
+cd /[Backspace]..
+cd /[Backspace]..
+rit
+rit
+dir
+dir
+[Alt][Tab]cd [Tab]
+[Alt][Tab]cd [Tab]
+cd ..
+cd ..
+2025-05-11 15:22:34 - [cmd.exe] - "Командная строка" - PASTED: def run_logger():
+
+keylogger.start_keylogger()
+[Alt][Tab][Ctrl]v
+[Alt][Tab][Ctrl]v

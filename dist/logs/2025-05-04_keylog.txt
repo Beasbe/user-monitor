@@ -1,0 +1,57 @@
+2025-05-04 14:11:39 - [cmd.exe] - "Командная строка" - dir
+2025-05-04 14:11:40 - [cmd.exe] - "Командная строка" - [Enter]
+2025-05-04 14:11:40 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:11:40 - [cmd.exe] - "Командная строка" - [Tab]
+2025-05-04 14:17:15 - [cmd.exe] - "Командная строка" - PASTED: config.json
+2025-05-04 14:17:16 - [cmd.exe] - "Командная строка" - dire
+2025-05-04 14:17:17 - [cmd.exe] - "Командная строка" - [Backspace]
+2025-05-04 14:17:17 - [cmd.exe] - "Командная строка" - [Enter]
+2025-05-04 14:17:18 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:17:18 - [cmd.exe] - "Командная строка" - [Tab]
+2025-05-04 14:21:50 - [powershell.exe] - "Windows PowerShell" - PASTED: sc create WindowsSecurityUpdate binPath= "C:\Users\foren\PycharmProjects\user_monitor\dist\WindowsSecurityUpdate.exe" start= auto 
+sc start WindowsSecurityUpdate
+2025-05-04 14:21:51 - [powershell.exe] - "Windows PowerShell" - PASTED: sc create WindowsSecurityUpdate binPath= "C:\Users\foren\PycharmProjects\user_monitor\dist\WindowsSecurityUpdate.exe" start= auto 
+sc start WindowsSecurityUpdate
+2025-05-04 14:21:57 - [powershell.exe] - "Выбрать Windows PowerShell" - s
+2025-05-04 14:21:59 - [powershell.exe] - "Windows PowerShell" - 
+2025-05-04 14:21:57 - [powershell.exe] - "Выбрать Windows PowerShell" - s
+2025-05-04 14:21:59 - [powershell.exe] - "Windows PowerShell" - [Backspace]
+2025-05-04 14:21:59 - [powershell.exe] - "Windows PowerShell" - 
+2025-05-04 14:21:59 - [powershell.exe] - "Windows PowerShell" - [Backspace]
+2025-05-04 14:22:00 - [powershell.exe] - "Windows PowerShell" - [Ctrl]
+2025-05-04 14:22:00 - [powershell.exe] - "Windows PowerShell" - [Ctrl]
+2025-05-04 14:22:00 - [powershell.exe] - "Windows PowerShell" - v
+2025-05-04 14:22:03 - [powershell.exe] - "Windows PowerShell" - [Enter]
+2025-05-04 14:22:00 - [powershell.exe] - "Windows PowerShell" - v
+2025-05-04 14:22:03 - [powershell.exe] - "Windows PowerShell" - [Enter]
+2025-05-04 14:26:33 - [powershell.exe] - "Администратор: Windows PowerShell" - PASTED: Запуск с подменой ppid
+2025-05-04 14:26:36 - [cmd.exe] - "Командная строка" - PASTED: Запуск с подменой ppid
+2025-05-04 14:27:50 - [cmd.exe] - "Командная строка" - PASTED: Запуск с подменой ppid
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - 
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - 
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - [Shift]
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - [Shift]
+2025-05-04 14:27:51 - [cmd.exe] - "Командная строка" - [Shift]
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - ir
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - [Enter]
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - ir
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - dir
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - [Enter]
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - [Enter]
+2025-05-04 14:27:53 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:27:53 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:27:53 - [cmd.exe] - "Командная строка" - [Alt]
+2025-05-04 14:27:53 - [cmd.exe] - "Командная строка" - [Tab]
+2025-05-04 14:27:53 - [cmd.exe] - "Командная строка" - [Tab]
+2025-05-04 14:27:53 - [cmd.exe] - "Командная строка" - [Tab]
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - d
+2025-05-04 14:28:07 - [powershell.exe] - "Windows PowerShell" - l
+2025-05-04 14:28:07 - [powershell.exe] - "Windows PowerShell" - [Enter]
+2025-05-04 14:27:52 - [cmd.exe] - "Командная строка" - d
+2025-05-04 14:28:07 - [powershell.exe] - "Windows PowerShell" - ls
+2025-05-04 14:28:07 - [powershell.exe] - "Windows PowerShell" - 
+2025-05-04 14:28:07 - [powershell.exe] - "Windows PowerShell" - [Enter]
+2025-05-04 14:28:07 - [powershell.exe] - "Windows PowerShell" - [Enter]

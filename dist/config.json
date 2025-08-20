@@ -1,0 +1,35 @@
+{
+  "allowed_processes": [
+    "cmd.exe", "powershell.exe", "wt.exe",
+    "python.exe", "pythonw.exe", "py.exe",
+    "bash.exe", "wsl.exe", "sh.exe",
+    "node.exe", "ruby.exe", "perl.exe",
+    "java.exe", "javaw.exe", "pwsh.exe", "conhost.exe"
+  ],
+  "readable_keys": {
+    "enter": "[Enter]",
+    "space": "[Space]",
+    "backspace": "[Backspace]",
+    "shift": "[Shift]",
+    "shift_r": "[RShift]",
+    "ctrl_l": "[Ctrl]",
+    "ctrl_r": "[RCtrl]",
+    "alt_l": "[Alt]",
+    "alt_r": "[RAlt]",
+    "tab": "[Tab]",
+    "esc": "[Esc]",
+    "delete": "[Delete]",
+    "up": "[Up]",
+    "down": "[Down]",
+    "left": "[Left]",
+    "right": "[Right]",
+    "home": "[Home]",
+    "end": "[End]",
+    "page_up": "[PgUp]",
+    "page_down": "[PgDn]",
+    "insert": "[Insert]",
+    "caps_lock": "[CapsLock]",
+    "cmd": "[Win]"
+  }
+}
+
