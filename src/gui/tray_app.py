@@ -1,9 +1,8 @@
-from multiprocessing import Process
 import pystray
 from pystray import MenuItem as item
 from PIL import Image, ImageDraw
 import threading
-import keylogger
+from src.core import keylogger
 
 
 def create_icon():

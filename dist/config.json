@@ -8,7 +8,7 @@
   ],
   "readable_keys": {
     "enter": "[Enter]",
-    "space": "[Space]",
+    "space": " ",
     "backspace": "[Backspace]",
     "shift": "[Shift]",
     "shift_r": "[RShift]",

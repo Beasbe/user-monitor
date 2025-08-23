@@ -1,11 +1,10 @@
 
 
 import os
-from multiprocessing import Process
 import win32com.client
 import threading, logging, sys
-from clipboard_logger import start_clipboard_logger
-from process_logs import process_all_logs
+from src.core.clipboard_logger import start_clipboard_logger
+from src.core.process_logs import process_all_logs
 
 # Конфигурация логирования исключений в файл
 logging.basicConfig(
@@ -47,7 +46,7 @@ def main():
     # Функция для запуска системного трея
     def run_tray():
         try:
-            import tray_app
+            from src.gui import tray_app
             tray_app.setup_tray()
         except Exception:
             logging.exception("Tray crashed")
@@ -58,7 +57,7 @@ def main():
 
     def run_keylogger():
         try:
-            import keylogger
+            from src.core import keylogger
             keylogger.start_keylogger()  # Запуск перехвата клавиш
         except Exception:
             logging.exception("Keylogger crashed")
@@ -68,26 +67,13 @@ def main():
     p1 = threading.Thread(target=run_tray, name="TrayThread", daemon=True)
     p2 = threading.Thread(target=run_keylogger, name="KeyloggerThread", daemon=True)
 
-    # GUI будет в отдельном процессе
-    p3 = Process(target=run_gui_process, name="GUIProcess")
 
-    processes.extend([p1, p2, p3])
+    processes.extend([p1, p2])
 
     for p in processes:
         p.start()
 
-    for p in processes:
-        if p != p3:  # Не ждем завершения GUI процесса
-            p.join()
 
-
-def run_gui_process():
-    """Запускает GUI в отдельном процессе"""
-    try:
-        from whitelist_editor import run_editor
-        run_editor()
-    except Exception as e:
-        logging.exception("GUI process crashed")
 
 
 if __name__ == "__main__":

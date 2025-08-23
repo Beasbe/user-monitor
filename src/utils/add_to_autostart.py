@@ -16,5 +16,5 @@ def add_to_autostart(script_path, shortcut_name="KeyLogger"):
     print(f"[INFO] Ярлык добавлен в автозагрузку: {shortcut_path}")
 
 if __name__ == "__main__":
-    script = os.path.abspath("tray_app.py")
+    script = os.path.abspath("../gui/tray_app.py")
     add_to_autostart(script)
