@@ -1,4 +1,4 @@
 pynput==1.7.6
-pywin32==306
+pywin32>=307
 psutil==5.9.5
 pyinstaller==5.13.0
