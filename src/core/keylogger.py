@@ -12,18 +12,34 @@ import json
 
 # ─── CONFIG ─────────────────────────────────────────────────────
 def load_config():
-    config_path = os.path.join(get_base_dir(), 'config.json')
+    """
+    Загружает конфигурацию из config.json рядом с EXE файлом.
+    """
     try:
+        if getattr(sys, 'frozen', False):
+            # Для EXE: config рядом с исполняемым файлом
+            base_dir = os.path.dirname(sys.executable)
+            config_path = os.path.join(base_dir, 'config', 'config.json')
+        else:
+            # Для Python: config в корне проекта
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            config_path = os.path.join(base_dir, '..', '..', 'config', 'config.json')
+
+        config_path = os.path.normpath(config_path)
+
+
         with open(config_path, 'r', encoding='utf-8') as f:
             return json.load(f)
+
     except Exception as e:
         logging.exception("Failed to load config.json")
-        return {"allowed_processes": [], "readable_keys": {}}
+
 
 def get_base_dir():
     if getattr(sys, 'frozen', False):
         return os.path.dirname(sys.executable)
     return os.path.dirname(os.path.abspath(__file__))
+
 
 config = load_config()
 ALLOWED_PROCESSES = [p.lower() for p in config.get("allowed_processes", [])]

