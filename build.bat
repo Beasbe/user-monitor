@@ -1,4 +1,22 @@
 @echo off
+echo Checking Python...
+python --version
+if errorlevel 1 (
+    echo Python not found! Please install Python 3.8+
+    pause
+    exit /b 1
+)
+
+echo Checking PyInstaller...
+pyinstaller --version
+if errorlevel 1 (
+    echo PyInstaller not found! Installing...
+    pip install pyinstaller
+)
+
+echo Checking dependencies...
+pip install -r requirements.txt
+
 echo Building EXE file...
 pyinstaller --onefile ^
     --windowed ^
@@ -27,5 +45,8 @@ pyinstaller --onefile ^
     run_all.py
 
 echo Build completed!
-echo Run dist\UserMonitor.exe
+echo Copying config and assets...
+xcopy config dist\config /E /I /Y >nul
+xcopy assets dist\assets /E /I /Y >nul
+echo EXE ready: dist\UserMonitor.exe
 pause
