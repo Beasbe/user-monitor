@@ -1,6 +1,6 @@
 pynput==1.7.6
 pywin32==311
 psutil==5.9.5
-pyinstaller==5.13.0
+pyinstaller==6.15.0
 pystray==0.19.5
 pillow==10.4.0
