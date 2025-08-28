@@ -5,23 +5,6 @@ import sys
 import time
 
 
-# Настройка логирования ДО всех импортов
-def setup_logging():
-    if getattr(sys, 'frozen', False):
-        base_dir = os.path.dirname(sys.executable)
-    else:
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-
-    log_file = os.path.join(base_dir, 'debug.log')
-
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler(log_file, encoding='utf-8')
-        ]
-    )
-
 
 # Setup logging
 def setup_logging():
@@ -39,7 +22,6 @@ def setup_logging():
             logging.FileHandler(log_file, encoding='utf-8')
         ]
     )
-
 
 setup_logging()
 logging.info("=== APPLICATION START ===")
